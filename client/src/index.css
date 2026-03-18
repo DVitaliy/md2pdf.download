@@ -190,4 +190,37 @@ textarea:active {
   ring: none !important;
 }
 
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .markdown-preview, .markdown-preview * {
+    visibility: visible;
+  }
+  .markdown-preview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px !important;
+  }
+  /* Optional: override colors for standard black-on-white printing */
+  .markdown-preview {
+    color: #000;
+    background: #fff;
+  }
+  
+  /* Ensure page breaks don't happen inside critical elements */
+  .markdown-preview h1,
+  .markdown-preview h2,
+  .markdown-preview h3 {
+    page-break-after: avoid;
+  }
+  
+  .markdown-preview pre,
+  .markdown-preview blockquote {
+    page-break-inside: avoid;
+  }
+}
 

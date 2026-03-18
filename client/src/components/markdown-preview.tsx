@@ -3,7 +3,6 @@ import remarkGfm from "remark-gfm";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import html2pdf from "html2pdf.js";
 import { Repository } from "@/../../shared/schema";
 
 interface MarkdownPreviewProps {
@@ -16,26 +15,7 @@ export default function MarkdownPreview({
   currentRepo,
 }: MarkdownPreviewProps) {
   const downloadPDF = () => {
-    const element = document.createElement("div");
-    const previewElement = document.querySelector(".markdown-preview");
-    if (!previewElement) return;
-
-    element.innerHTML = previewElement.innerHTML;
-
-    element.style.padding = "20px";
-    element.style.fontFamily = "system-ui, sans-serif";
-    element.style.lineHeight = "1.6";
-    element.style.color = "#24292f";
-
-    const options = {
-      margin: 1,
-      filename: `${currentRepo?.name || "markdown"}.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-    };
-
-    html2pdf().set(options).from(element).save();
+    window.print();
   };
 
   return (
