@@ -118,11 +118,11 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-slate-50 text-slate-900 overflow-hidden print:bg-white">
+    <div className="h-screen flex flex-col bg-slate-50 text-slate-900 overflow-hidden print:bg-white print:h-auto print:overflow-visible">
       <Header user={user} currentRepo={selectedRepo} />
 
-      <div className="flex-1 min-h-0 p-4 pt-2 pb-4">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 h-full overflow-hidden flex flex-col">
+      <div className="flex-1 min-h-0 p-4 pt-2 pb-4 print:p-0">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 h-full overflow-hidden flex flex-col print:border-none print:shadow-none print:rounded-none print:bg-white print:overflow-visible">
           <PanelGroup direction="horizontal" className="h-full">
             <Panel defaultSize={25} minSize={15} maxSize={40}>
               <FileTree

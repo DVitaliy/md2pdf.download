@@ -232,8 +232,7 @@ textarea:active {
   .markdown-preview {
     display: block !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    /* allow default padding to give the text some breathing room */
     color: #000;
   }
   
