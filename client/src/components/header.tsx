@@ -52,6 +52,28 @@ export default function Header({ user, currentRepo }: HeaderProps) {
       </div>
 
       <div className="flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-4 text-slate-500 mr-2 pr-4 border-r border-slate-200">
+          <a
+            href="https://github.com/DVitaliy/md2pdf.download"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center space-x-1.5 hover:text-slate-900 transition-colors"
+            title="View on GitHub"
+          >
+            <Github className="h-4 w-4" />
+            <span className="text-sm font-medium">GitHub</span>
+          </a>
+          <a
+            href="https://github.com/DVitaliy/md2pdf.download/issues"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center space-x-1.5 hover:text-slate-900 transition-colors"
+            title="Report an Issue"
+          >
+            <span className="text-sm font-medium">Issues</span>
+          </a>
+        </div>
+
         <div className="hidden md:flex items-center space-x-2 text-github-gray">
           <img
             src={user.avatarUrl ?? undefined}
