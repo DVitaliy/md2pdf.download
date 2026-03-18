@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Github, GitBranch, LogOut } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useLocation } from "wouter";
-import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { User, Repository } from "@/../../shared/schema";
 
@@ -12,8 +10,6 @@ interface HeaderProps {
 }
 
 export default function Header({ user, currentRepo }: HeaderProps) {
-  const [, setLocation] = useLocation();
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const logoutMutation = useMutation({
