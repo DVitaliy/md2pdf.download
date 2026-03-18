@@ -191,36 +191,66 @@ textarea:active {
 }
 
 @media print {
-  body * {
-    visibility: hidden;
+  /* Prevent background colors from saving generally, if desired */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-  .markdown-preview, .markdown-preview * {
-    visibility: visible;
+
+  /* 1. Hide unwanted UI elements: standard Header, Preview's top bar, and resize handles */
+  header,
+  .bg-github-light.border-b,
+  [data-panel-resize-handle] {
+    display: none !important;
   }
+
+  /* 2. Hide panels that do not contain the markdown preview (e.g., file tree, editor) */
+  [data-panel]:not(:has(.markdown-preview)) {
+    display: none !important;
+  }
+
+  /* 3. Strip all layout constraints from ancestors to allow natural flowing and pagination */
+  html, body, #root, 
+  .h-screen, .h-full, .flex-1, .min-h-0, .overflow-hidden,
+  .flex, .flex-col,
+  [data-panel-group], 
+  [data-panel]:has(.markdown-preview),
+  [data-radix-scroll-area-viewport],
+  [dir="ltr"] {
+    display: block !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    width: auto !important;
+    max-width: 100% !important;
+    flex: none !important;
+    position: static !important;
+    overflow: visible !important;
+    transform: none !important;
+  }
+
+  /* 4. Format the preview content directly */
   .markdown-preview {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    margin: 0;
-    padding: 20px !important;
-  }
-  /* Optional: override colors for standard black-on-white printing */
-  .markdown-preview {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     color: #000;
-    background: #fff;
   }
   
-  /* Ensure page breaks don't happen inside critical elements */
+  /* 5. Pagination controls */
   .markdown-preview h1,
   .markdown-preview h2,
   .markdown-preview h3 {
     page-break-after: avoid;
+    break-after: avoid;
   }
   
   .markdown-preview pre,
-  .markdown-preview blockquote {
+  .markdown-preview blockquote,
+  .markdown-preview img {
     page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
 
