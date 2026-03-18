@@ -20,7 +20,7 @@ export default function MarkdownPreview({
 
   return (
     <div className="h-full bg-white flex flex-col">
-      <div className="bg-github-light border-b border-github-border px-6 py-3 flex items-center justify-between">
+      <div className="bg-github-light border-b border-github-border px-6 py-3 flex items-center justify-between print:hidden">
         <span className="font-medium text-github-dark">Preview</span>
         <Button
           onClick={downloadPDF}

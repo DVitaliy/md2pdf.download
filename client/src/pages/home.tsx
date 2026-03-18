@@ -118,45 +118,47 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-white text-github-dark overflow-hidden">
+    <div className="h-screen flex flex-col bg-slate-50 text-slate-900 overflow-hidden print:bg-white">
       <Header user={user} currentRepo={selectedRepo} />
 
-      <div className="flex-1 min-h-0">
-        <PanelGroup direction="horizontal" className="h-full">
-          <Panel defaultSize={25} minSize={15} maxSize={40}>
-            <FileTree
-              repositories={repositories || []}
-              selectedRepo={selectedRepo}
-              onRepoSelect={setSelectedRepo}
-              selectedFile={selectedFile}
-              onFileSelect={setSelectedFile}
-              isLoading={reposLoading}
-              onRefreshRepositories={refetchRepositories}
-            />
-          </Panel>
+      <div className="flex-1 min-h-0 p-4 pt-2 pb-4">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 h-full overflow-hidden flex flex-col">
+          <PanelGroup direction="horizontal" className="h-full">
+            <Panel defaultSize={25} minSize={15} maxSize={40}>
+              <FileTree
+                repositories={repositories || []}
+                selectedRepo={selectedRepo}
+                onRepoSelect={setSelectedRepo}
+                selectedFile={selectedFile}
+                onFileSelect={setSelectedFile}
+                isLoading={reposLoading}
+                onRefreshRepositories={refetchRepositories}
+              />
+            </Panel>
 
-          <PanelResizeHandle className="w-2 bg-github-border hover:bg-blue-500 transition-colors duration-200 cursor-col-resize" />
+            <PanelResizeHandle className="w-1 bg-slate-100 hover:bg-blue-400 transition-colors duration-200 cursor-col-resize print:hidden" />
 
-          <Panel defaultSize={37.5} minSize={20}>
-            <MarkdownEditor
-              content={markdownContent}
-              onChange={setMarkdownContent}
-              fileName={selectedFile}
-              isLoading={fileLoading}
-              selectedRepo={selectedRepo}
-              originalContent={fileContent?.content}
-            />
-          </Panel>
+            <Panel defaultSize={37.5} minSize={20}>
+              <MarkdownEditor
+                content={markdownContent}
+                onChange={setMarkdownContent}
+                fileName={selectedFile}
+                isLoading={fileLoading}
+                selectedRepo={selectedRepo}
+                originalContent={fileContent?.content}
+              />
+            </Panel>
 
-          <PanelResizeHandle className="w-2 bg-github-border hover:bg-blue-500 transition-colors duration-200 cursor-col-resize" />
+            <PanelResizeHandle className="w-1 bg-slate-100 hover:bg-blue-400 transition-colors duration-200 cursor-col-resize print:hidden" />
 
-          <Panel defaultSize={37.5} minSize={20}>
-            <MarkdownPreview
-              content={markdownContent}
-              currentRepo={selectedRepo}
-            />
-          </Panel>
-        </PanelGroup>
+            <Panel defaultSize={37.5} minSize={20}>
+              <MarkdownPreview
+                content={markdownContent}
+                currentRepo={selectedRepo}
+              />
+            </Panel>
+          </PanelGroup>
+        </div>
       </div>
     </div>
   );

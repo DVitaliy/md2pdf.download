@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Textarea } from "@/components/ui/textarea";
+import Editor from "@monaco-editor/react";
 import { Badge } from "@/components/ui/badge";
 import { Edit, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,6 @@ export default function MarkdownEditor({
   const queryClient = useQueryClient();
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const autoSaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const hasChangesFromOriginal =
     originalContent !== undefined && content !== originalContent;
@@ -127,41 +126,41 @@ export default function MarkdownEditor({
 
   if (isLoading) {
     return (
-      <div className="flex-1 flex flex-col border-r border-github-border">
-        <div className="bg-github-light border-b border-github-border px-6 py-3">
-          <Skeleton className="h-6 w-48" />
+      <div className="flex-1 flex flex-col bg-white border-r border-slate-200">
+        <div className="bg-white border-b border-slate-200 px-5 py-4 flex items-center justify-between">
+          <Skeleton className="h-6 w-48 bg-slate-200" />
         </div>
         <div className="flex-1 p-6">
-          <Skeleton className="h-full w-full" />
+          <Skeleton className="h-full w-full bg-slate-100" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-full flex flex-col border-r border-github-border markdown-editor">
-      <div className="bg-github-light border-b border-github-border px-6 py-3 flex items-center justify-between">
+    <div className="h-full flex flex-col bg-white border-r border-slate-200 markdown-editor">
+      <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center justify-between z-10 w-full relative">
         <div className="flex items-center space-x-3">
-          <Edit className="h-4 w-4 text-github-gray" />
+          <Edit className="h-4 w-4 text-slate-400" />
           {fileName && (
-            <span className="font-medium text-github-dark">{fileName}</span>
+            <span className="font-semibold text-sm text-slate-700 tracking-wide">{fileName}</span>
           )}
           {hasUnsavedChanges && (
             <Badge
               variant="secondary"
-              className="bg-orange-100 text-orange-800"
+              className="bg-amber-100/80 text-amber-700 border border-amber-200/50 shadow-sm"
             >
               Auto-saving...
             </Badge>
           )}
           {hasChangesFromOriginal && !hasUnsavedChanges && (
-            <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+            <Badge variant="secondary" className="bg-blue-50 text-blue-600 border border-blue-200 shadow-sm">
               Modified
             </Badge>
           )}
         </div>
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-3 text-github-gray text-sm">
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3 text-slate-500 text-xs font-medium uppercase tracking-wider">
             <span>{wordCount} words</span>
             <span>{charCount} chars</span>
           </div>
@@ -170,31 +169,50 @@ export default function MarkdownEditor({
             onClick={handlePushToGitHub}
             disabled={pushToGitHubMutation.isPending || !hasChangesFromOriginal}
             size="sm"
-            className={`${
+            className={`shadow-sm h-8 ${
               hasChangesFromOriginal
-                ? "bg-blue-600 hover:bg-blue-700 text-white border border-blue-700 shadow-sm"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                ? "bg-blue-600 hover:bg-blue-700 text-white border border-blue-700"
+                : "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200 hover:bg-slate-100"
             }`}
           >
-            <Upload className="mr-2 h-4 w-4" />
+            <Upload className="mr-2 h-3.5 w-3.5" />
             {pushToGitHubMutation.isPending ? "Pushing..." : "Push to GitHub"}
           </Button>
         </div>
       </div>
 
-      <div className="flex-1 relative">
+      <div className="flex-1 relative bg-white w-full">
         {fileName ? (
-          <Textarea
-            ref={textareaRef}
-            value={content}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Start editing your markdown..."
-            className="w-full h-full p-6 font-mono text-sm leading-relaxed resize-none border-none focus:ring-0 focus:outline-none focus:border-none focus-visible:ring-0 focus-visible:ring-offset-0"
-            style={{ minHeight: "100%", boxShadow: "none" }}
-          />
+          <div className="absolute inset-0">
+            <Editor
+              height="100%"
+              defaultLanguage="markdown"
+              language="markdown"
+              theme="light"
+              value={content}
+              onChange={(value) => onChange(value || "")}
+              options={{
+                minimap: { enabled: false },
+                wordWrap: "on",
+                padding: { top: 24, bottom: 24 },
+                lineNumbers: "on",
+                scrollBeyondLastLine: false,
+                fontFamily: "ui-monospace, SFMono-Regular, SF Mono, Consolas, Liberation Mono, Menlo, monospace",
+                fontSize: 14,
+                lineHeight: 1.6,
+                renderLineHighlight: "all",
+                hideCursorInOverviewRuler: true,
+                smoothScrolling: true,
+              }}
+              className="w-full h-full"
+            />
+          </div>
         ) : (
-          <div className="flex items-center justify-center h-full text-gray-500">
-            <p>Select a markdown file to start editing</p>
+          <div className="flex items-center justify-center h-full text-slate-400">
+            <div className="text-center">
+              <Edit className="h-10 w-10 mx-auto mb-4 text-slate-300" />
+              <p className="font-medium">Select a markdown file to start editing</p>
+            </div>
           </div>
         )}
       </div>

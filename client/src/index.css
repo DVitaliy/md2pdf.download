@@ -212,7 +212,6 @@ textarea:active {
   /* 3. Strip all layout constraints from ancestors to allow natural flowing and pagination */
   html, body, #root, 
   .h-screen, .h-full, .flex-1, .min-h-0, .overflow-hidden,
-  .flex, .flex-col,
   [data-panel-group], 
   [data-panel]:has(.markdown-preview),
   [data-radix-scroll-area-viewport],
